@@ -1,11 +1,27 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Network {
 
-    public static void main(String [] args){
-        Network network = new Network();
-        Double prediction = network.predict(2.2, 30.5);
-        System.out.println("prediction: " + prediction);
+    public static void main(String[] args) {   
+ 	    ArrayList<double[]> data = new ArrayList<double[]>();
+    	data.add(new double[]{115/365, 66/150});
+    	data.add(new double[]{20/365, 32/150});
+    	data.add(new double[]{325/365, 29/150});
+      	data.add(new double[]{200/365,88/150});
+    	ArrayList<Double> answers = new ArrayList<Double>();
+    	answers.addAll(Arrays.asList(0.0,1.0,1.0,0.0));  
+
+    	Network network = new Network();
+    	network.train(data, answers);
+
+    	//Try making some predictions:
+    	System.out.println("Should give no "+network.predict(167/365, 73/150));
+    	System.out.println("Should give yes "+network.predict(30/365, 25/150));
     }
 
     Neuron first = new Neuron();
@@ -121,5 +137,24 @@ public class Network {
             }
         }
     }
+
+    /**
+     * Reads CSV file into a 2D list of strings
+     */
+    public static List<List<String>> readCSV(String filePath) {
+        List<List<String>> data = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                data.add(Arrays.asList(line.split(",")));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return data;
+    }
+
 
 }

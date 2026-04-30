@@ -8,20 +8,15 @@ import java.util.List;
 public class Network {
 
     public static void main(String[] args) {   
- 	    ArrayList<double[]> data = new ArrayList<double[]>();
-    	data.add(new double[]{115/365, 66/150});
-    	data.add(new double[]{20/365, 32/150});
-    	data.add(new double[]{325/365, 29/150});
-      	data.add(new double[]{200/365,88/150});
-    	ArrayList<Double> answers = new ArrayList<Double>();
-    	answers.addAll(Arrays.asList(0.0,1.0,1.0,0.0));  
+ 	    List<List<String>> Alldata = readCSV("/workspaces/neuralNetwork/Passwords.csv");
+        ArrayList<double[]> data = new ArrayList<double[]>();
+        ArrayList<Double> answers = new ArrayList<Double>();
 
-    	Network network = new Network();
-    	network.train(data, answers);
-
-    	//Try making some predictions:
-    	System.out.println("Should give no "+network.predict(167/365, 73/150));
-    	System.out.println("Should give yes "+network.predict(30/365, 25/150));
+        for(int i=0; i<Alldata.size(); i++) {
+            List<String> selected = Alldata.get(i);
+            System.out.println("Strength: " + selected.get(6));
+        }
+        //System.out.println(data);
     }
 
     Neuron first = new Neuron();
@@ -155,6 +150,6 @@ public class Network {
 
         return data;
     }
-
+    
 
 }

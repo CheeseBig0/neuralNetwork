@@ -14,14 +14,17 @@ public class Network {
 
         for(int i=1; i<Alldata.size(); i++) {
             List<String> selected = Alldata.get(i);
-            double[] tempData = {1};
+            double[] tempData = {0,0};
 
-            //give the password strength out of 10
+            //give the password strength out of 10 (thats what code.org said the limit was)
             tempData[0] = Double.parseDouble(selected.get(6)) / 10;
+            //give password length with limit of 10 characters
+            tempData[1] = ( (double) selected.get(2).length() ) / 10;
 
             String timeText = selected.get(5);
-            //if the password crack time is at least 1 day
-            if( timeText.matches("days") ) {
+
+            //check if the password crack time is at least 1 day
+            if( timeText.matches("days") || (timeText.matches("months")) || (timeText.matches("years")) ) {
                 answers.add(1.0);
             } else {
                 answers.add(0.0);
@@ -29,9 +32,17 @@ public class Network {
 
             data.add(tempData);
 
-            System.out.println("Strength: " + selected.get(6));
+            //System.out.println("Strength: " + selected.get(6));
         }
         //System.out.println(data);
+
+        Network network = new Network();
+        network.train(data, answers);
+
+        
+        System.out.println("Should be yes "+network.predict(0.7, 0.9));
+
+        System.out.println("Should be no "+network.predict(0.1, 0.3));
     }
 
     Neuron first = new Neuron();

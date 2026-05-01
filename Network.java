@@ -12,8 +12,23 @@ public class Network {
         ArrayList<double[]> data = new ArrayList<double[]>();
         ArrayList<Double> answers = new ArrayList<Double>();
 
-        for(int i=0; i<Alldata.size(); i++) {
+        for(int i=1; i<Alldata.size(); i++) {
             List<String> selected = Alldata.get(i);
+            double[] tempData = {1};
+
+            //give the password strength out of 10
+            tempData[0] = Double.parseDouble(selected.get(6)) / 10;
+
+            String timeText = selected.get(5);
+            //if the password crack time is at least 1 day
+            if( timeText.matches("days") ) {
+                answers.add(1.0);
+            } else {
+                answers.add(0.0);
+            }
+
+            data.add(tempData);
+
             System.out.println("Strength: " + selected.get(6));
         }
         //System.out.println(data);
